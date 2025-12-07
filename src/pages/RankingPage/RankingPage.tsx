@@ -3,7 +3,7 @@ import { PageTitle, WrapperPage } from "../Page.style";
 
 const RankingPage = () => {
 	return (
-		<WrapperPage>
+		<WrapperPage topAligned>
 			<PageTitle>Classement</PageTitle>
 			<Ranking />
 		</WrapperPage>

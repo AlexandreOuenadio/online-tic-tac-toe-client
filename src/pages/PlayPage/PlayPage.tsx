@@ -154,13 +154,13 @@ const PlayPage = () => {
 								{game.all.winner
 									? `${game.all.winner?.username} (${game.all.winner?.symbol}) a gagné(e) la partie ! (+3pts)`
 									: game.all.isDraw
-									? "Match nul ! (+2pts chacun)"
-									: game.all.turnInfo === game.player.symbol
-									? "C'est à vous de jouer !"
-									: !!game.player.symbol &&
-									  game.all.turnInfo !== game.player.symbol
-									? "C'est à votre adversaire de jouer."
-									: "Vous êtes spectateur de la partie."}
+										? "Match nul ! (+2pts chacun)"
+										: game.all.turnInfo === game.player.symbol
+											? "C'est à vous de jouer !"
+											: !!game.player.symbol &&
+												game.all.turnInfo !== game.player.symbol
+												? "C'est à votre adversaire de jouer."
+												: "Vous êtes spectateur de la partie."}
 							</S.GameInfoText>
 						</>
 					)}

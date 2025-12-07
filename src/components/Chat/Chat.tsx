@@ -44,22 +44,26 @@ const Chat = ({ messages, socket }) => {
 						onChange={e => setMessageToSend(e.target.value)}
 						onKeyDown={e => {
 							if (e.key === "Enter") {
-								socket.emit("message", {
-									username: user?.username,
-									messageToSend,
-								});
-								setMessageToSend("");
+								if (messageToSend.trim()) {
+									socket.emit("message", {
+										username: user?.username,
+										messageToSend,
+									});
+									setMessageToSend("");
+								}
 							}
 						}}
 					/>
 					<S.SendButton
 						size={16}
 						onClick={() => {
-							socket.emit("message", {
-								username: user?.username,
-								messageToSend,
-							});
-							setMessageToSend("");
+							if (messageToSend.trim()) {
+								socket.emit("message", {
+									username: user?.username,
+									messageToSend,
+								});
+								setMessageToSend("");
+							}
 						}}
 					/>
 				</S.WrapperChatInput>

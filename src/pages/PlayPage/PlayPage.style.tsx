@@ -1,27 +1,34 @@
 import styled from "styled-components";
 
 export const WrapperChat = styled.div`
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 30vw;
+	width: 30%;
 	height: 100%;
 	background-color: white;
+
+	@media (max-width: ${props => props.theme.breakpoints.tablet}) {
+		width: 100%;
+		height: 400px; /* Fixed height on mobile */
+		max-height: 50vh; /* Don't exceed half viewport */
+	}
 `;
 
 export const WrapperGame = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 70vw;
+	width: 70%;
 	height: 100%;
 	background-color: ${props => props.theme.primary};
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	gap: 1.6rem;
+	gap: ${props => props.theme.spacing.md};
 	justify-content: center;
 	align-items: center;
+	position: relative;
+
+	@media (max-width: ${props => props.theme.breakpoints.tablet}) {
+		width: 100%;
+		height: auto; /* Let content determine height */
+		padding: ${props => props.theme.spacing.lg} 0;
+	}
 `;
 
 export const OverlayWaitingRoom = styled.div<{ overlayHidden: boolean }>`
@@ -67,8 +74,11 @@ export const WaitingRoomText = styled.div`
 	font-weight: 600;
 `;
 
-export const JoinWaitingRoomButton = styled.button`
-	background-color: ${props => props.theme.primary};
+import { Button } from "../../components/Forms/Form.style";
+
+export const JoinWaitingRoomButton = styled(Button)`
+	width: auto;
+	padding: ${props => props.theme.spacing.sm} ${props => props.theme.spacing.xl};
 `;
 
 export const Countdown = styled.div`

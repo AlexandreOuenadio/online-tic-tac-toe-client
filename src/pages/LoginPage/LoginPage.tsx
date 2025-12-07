@@ -1,17 +1,19 @@
 import { FormLogin } from "../../components";
 import { PageTitle, WrapperPage } from "../Page.style";
-import { LinkToAccountCreation, WrapperNeedAccount } from "./LoginPage.style";
+import { LinkToAccountCreation, LoginCard, WrapperNeedAccount } from "./LoginPage.style";
 
 const LoginPage = () => {
 
 	return (
 		<WrapperPage>
-			<PageTitle>Connexion</PageTitle>
-			<FormLogin />
-			<WrapperNeedAccount>
-				Vous n'êtes pas inscrit(e) ?{" "}
-				<LinkToAccountCreation to="/signup">Créez un compte !</LinkToAccountCreation>
-			</WrapperNeedAccount>
+			<LoginCard>
+				<PageTitle>Connexion</PageTitle>
+				<FormLogin />
+				<WrapperNeedAccount>
+					Vous n'êtes pas inscrit(e) ?{" "}
+					<LinkToAccountCreation to="/signup">Créez un compte !</LinkToAccountCreation>
+				</WrapperNeedAccount>
+			</LoginCard>
 		</WrapperPage>
 	);
 };

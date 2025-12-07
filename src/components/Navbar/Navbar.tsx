@@ -12,6 +12,8 @@ import {
 	WrapperNav,
 	WrapperProfilePicture,
 	WrapperUserMenu,
+	HamburgerButton,
+	MobileMenu,
 } from "./Navbar.style";
 import { useAuth, useUserProfile } from "../../hooks";
 import {
@@ -28,6 +30,7 @@ import {
 import { useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { logoutMutation } from "../../mutations/auth";
+import { Menu, X } from "react-feather";
 
 const Navbar = () => {
 	const { auth, setAuth } = useAuth();
@@ -35,6 +38,7 @@ const Navbar = () => {
 	const navigate = useNavigate();
 	const { mutate: logout } = useMutation({ mutationFn: logoutMutation });
 	const [isOpen, setOpen] = useState(false);
+	const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const arrowRef = useRef(null);
 	const { refs, floatingStyles, context } = useFloating({
 		placement: "bottom",
@@ -59,7 +63,10 @@ const Navbar = () => {
 
 	return (
 		<WrapperNav>
-			<WrapperAppLogo>TIC TAC TOE online</WrapperAppLogo>
+			<WrapperAppLogo>
+				<img src="/ttt.png" alt="Logo" style={{ height: '3.2rem', width: '3.2rem' }} />
+				<span>TIC TAC TOE online</span>
+			</WrapperAppLogo>
 			<Nav>
 				<NavItem>
 					<NavItemLink to="/play">Jouer</NavItemLink>
@@ -68,6 +75,36 @@ const Navbar = () => {
 					<NavItemLink to="/ranking">Classement</NavItemLink>
 				</NavItem>
 			</Nav>
+			<HamburgerButton onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}>
+				{isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+			</HamburgerButton>
+			<MobileMenu isOpen={isMobileMenuOpen}>
+				<NavItem onClick={() => setMobileMenuOpen(false)}>
+					<NavItemLink to="/play">Jouer</NavItemLink>
+				</NavItem>
+				<NavItem onClick={() => setMobileMenuOpen(false)}>
+					<NavItemLink to="/ranking">Classement</NavItemLink>
+				</NavItem>
+				{auth?.isLogout ? (
+					<NavItem onClick={() => setMobileMenuOpen(false)}>
+						<NavItemLink to="/login">Se connecter</NavItemLink>
+					</NavItem>
+				) : (
+					<>
+						<NavItem onClick={() => setMobileMenuOpen(false)}>
+							<NavItemLink to="/profile">Mon profil</NavItemLink>
+						</NavItem>
+						<NavItem onClick={() => {
+							setMobileMenuOpen(false);
+							logout();
+							setAuth({ token: null, isLogout: true });
+							navigate("/login", { replace: true });
+						}}>
+							<span style={{ color: '#ff477e' }}>Se déconnecter</span>
+						</NavItem>
+					</>
+				)}
+			</MobileMenu>
 			<WrapperAuthentification>
 				{auth?.isLogout ? (
 					<LoginButton to="/login">Se connecter</LoginButton>

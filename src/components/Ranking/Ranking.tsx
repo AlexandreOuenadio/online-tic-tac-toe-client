@@ -36,14 +36,20 @@ export const Ranking = () => {
 				?.toReversed()
 				?.map((user, index: number) => (
 					<RankingRow key={user.username}>
-						<WrapperUserPictureUsername>
-							<WrapperProfilePicture>
-								<UserProfilePicture src={user?.profilePictureURL} />
-							</WrapperProfilePicture>
-							<Username>{user?.username}</Username>
-						</WrapperUserPictureUsername>
-						<UserPoints>{user?.points} pts</UserPoints>
-						<UserRank>#{index + 1}</UserRank>
+						<RankingUser>
+							<WrapperUserPictureUsername>
+								<WrapperProfilePicture>
+									<UserProfilePicture src={user?.profilePictureURL} />
+								</WrapperProfilePicture>
+								<Username>{user?.username}</Username>
+							</WrapperUserPictureUsername>
+						</RankingUser>
+						<RankingPoints>
+							<UserPoints>{user?.points} pts</UserPoints>
+						</RankingPoints>
+						<RankingRank>
+							<UserRank>#{index + 1}</UserRank>
+						</RankingRank>
 					</RankingRow>
 				))}
 		</WrapperRanking>
