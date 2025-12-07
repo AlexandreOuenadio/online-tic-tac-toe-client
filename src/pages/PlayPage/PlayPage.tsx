@@ -144,7 +144,7 @@ const PlayPage = () => {
 	return (
 		<WrapperPage wide relative>
 			<S.WrapperChat>
-				<Chat messages={chat.messages} socket={socket} />
+				<Chat messages={chat.messages} socket={socket} connectedUsers={chat.connectedUsers} />
 			</S.WrapperChat>
 			<S.WrapperGame>
 				<S.OverlayWaitingRoom overlayHidden={isOverlayHidden}>

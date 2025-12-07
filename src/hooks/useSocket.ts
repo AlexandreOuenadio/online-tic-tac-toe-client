@@ -10,6 +10,12 @@ export type PlayerInRoomType = {
 	symbol: string;
 };
 
+export type ConnectedUserType = {
+	username: string;
+	profilePictureURL: string;
+	isInGame: boolean;
+};
+
 export type Message = {
 	username: string;
 	profilePictureURL: string;
@@ -26,6 +32,7 @@ export const useSocket = () => {
 	const { user } = useUserProfile();
 	const [isConnected, setConnected] = useState(socket.connected);
 	const [messages, setMessages] = useState<Message[]>([]);
+	const [connectedUsers, setConnectedUsers] = useState<ConnectedUserType[]>([]);
 	const [playerSymbol, setPlayerSymbol] = useState<PlayerSymbol | null>(null);
 	const [isGameStarting, setGameStarting] = useState(false);
 	const [isGameRestarting, setGameRestarting] = useState(true);
@@ -47,7 +54,7 @@ export const useSocket = () => {
 			setMessages(messages);
 		}
 
-		function onGameInfo() {}
+		function onGameInfo() { }
 
 		function onChangeBoard(board: string[]) {
 			setBoard(board);
@@ -84,6 +91,10 @@ export const useSocket = () => {
 			setDraw(true);
 		}
 
+		function onConnectedUsers(users: ConnectedUserType[]) {
+			setConnectedUsers(users);
+		}
+
 		socket.on("connect", onConnect);
 		socket.on("disconnect", onDisconnect);
 		socket.on("messages", onMessages);
@@ -97,6 +108,7 @@ export const useSocket = () => {
 		socket.on("turnInfo", onTurnInfo);
 		socket.on("winner", onWinner);
 		socket.on("draw", onDraw);
+		socket.on("connectedUsers", onConnectedUsers);
 
 		return () => {
 			socket.off("connect", onConnect);
@@ -112,11 +124,17 @@ export const useSocket = () => {
 			socket.off("turnInfo", onTurnInfo);
 			socket.off("winner", onWinner);
 			socket.off("draw", onDraw);
+			socket.off("connectedUsers", onConnectedUsers);
 		};
 	}, []);
 
 	useEffect(() => {
 		socket.connect();
+
+		// Emit userConnect event when user is available
+		if (user?.username) {
+			socket.emit("userConnect", user.username);
+		}
 
 		return () => {
 			socket.emit("playerLeave", user?.username);
@@ -129,6 +147,7 @@ export const useSocket = () => {
 		isConnected,
 		chat: {
 			messages,
+			connectedUsers,
 		},
 		game: {
 			setters: {

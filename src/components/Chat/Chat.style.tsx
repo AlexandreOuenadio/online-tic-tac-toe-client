@@ -28,6 +28,111 @@ export const ChatTitle = styled.div`
 	color: ${({ theme }) => theme.text};
 `;
 
+export const OnlineIndicatorWrapper = styled.div`
+	position: relative;
+	margin-left: auto;
+`;
+
+export const OnlineIndicator = styled.div`
+	display: flex;
+	align-items: center;
+	gap: ${props => props.theme.spacing.xs};
+	padding: ${props => props.theme.spacing.xs} ${props => props.theme.spacing.sm};
+	background-color: ${({ theme }) => theme.okColor};
+	border-radius: 2rem;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	
+	&:hover {
+		transform: scale(1.05);
+		box-shadow: ${props => props.theme.shadows.sm};
+	}
+`;
+
+export const OnlineCircle = styled.div`
+	height: 1rem;
+	width: 1rem;
+	border-radius: 100%;
+	background-color: white;
+`;
+
+export const PlayerCount = styled.span`
+	font-size: 1.2rem;
+	font-weight: 600;
+	color: white;
+	min-width: 1.2rem;
+	text-align: center;
+`;
+
+export const PlayersDropdown = styled.div<{ isOpen: boolean }>`
+	position: absolute;
+	top: calc(100% + ${props => props.theme.spacing.xs});
+	right: 0;
+	background-color: white;
+	border-radius: ${props => props.theme.borderRadius.md};
+	box-shadow: ${props => props.theme.shadows.lg};
+	min-width: 20rem;
+	max-height: 30rem;
+	overflow-y: auto;
+	z-index: 1000;
+	opacity: ${props => props.isOpen ? 1 : 0};
+	visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+	transform: ${props => props.isOpen ? 'translateY(0)' : 'translateY(-1rem)'};
+	transition: all 0.2s ease;
+`;
+
+export const DropdownHeader = styled.div`
+	padding: ${props => props.theme.spacing.md};
+	border-bottom: 1px solid ${props => props.theme.grayscale.light};
+	font-weight: 600;
+	font-size: 1.4rem;
+	color: ${props => props.theme.text};
+`;
+
+export const PlayerItem = styled.div`
+	display: flex;
+	align-items: center;
+	gap: ${props => props.theme.spacing.sm};
+	padding: ${props => props.theme.spacing.md};
+	border-bottom: 1px solid ${props => props.theme.grayscale.light};
+	transition: background-color 0.2s ease;
+	
+	&:last-child {
+		border-bottom: none;
+	}
+	
+	&:hover {
+		background-color: ${props => props.theme.grayscale.light};
+	}
+`;
+
+export const PlayerItemPicture = styled.div`
+	height: 3.2rem;
+	width: 3.2rem;
+	overflow: hidden;
+	border-radius: 100%;
+	flex-shrink: 0;
+`;
+
+export const PlayerItemImage = styled.img`
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+`;
+
+export const PlayerItemName = styled.div`
+	font-size: 1.4rem;
+	font-weight: 500;
+	color: ${props => props.theme.text};
+`;
+
+export const EmptyPlayersMessage = styled.div`
+	padding: ${props => props.theme.spacing.lg};
+	text-align: center;
+	color: ${props => props.theme.grayscale.soft};
+	font-size: 1.3rem;
+`;
+
 export const UserConnectionState = styled.div`
 	height: 1rem;
 	width: 1rem;
@@ -147,4 +252,13 @@ export const SendButton = styled(Send)`
 	&:hover {
 		transform: translateY(-50%) scale(1.1);
 	}
+`;
+
+export const CombatIcon = styled.span`
+	display: inline-flex;
+	align-items: center;
+	margin-left: ${props => props.theme.spacing.xs};
+	font-size: 1.2rem;
+	color: #e74c3c;
+	font-weight: bold;
 `;
