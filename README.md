@@ -55,6 +55,6 @@ This project uses **GitHub Actions** for Continuous Integration and Deployment.
 -   [ ] Improve responsive design for mobile devices.
 -   [ ] Add automated tests workflow.
 
-## � License
+## License
 
 This project is open source and available under the [MIT License](LICENSE).

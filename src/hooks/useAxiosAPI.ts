@@ -20,7 +20,7 @@ export const useAxiosAPI = () => {
 				const status = error?.response?.status;
 				if (status === 403) {
 					try {
-						const token = await refreshToken();
+						const { token } = await refreshToken();
 						prevRequest.headers.Authorization = `Bearer ${token}`;
 						return axiosAPI(prevRequest);
 					} catch (e) {

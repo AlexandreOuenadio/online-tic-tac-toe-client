@@ -3,7 +3,7 @@ import { useAuth } from "../../hooks";
 
 const AuthRequired = () => {
 	const { auth } = useAuth();
-	if (auth?.isLogout) return <Navigate to="/login" replace />;
+	if (auth?.isLogout || !auth?.token) return <Navigate to="/login" replace />;
 
 	return <Outlet />;
 };
