@@ -13,6 +13,10 @@ export const Board = styled.div`
 	box-shadow: ${props => props.theme.shadows.lg};
 	border-radius: ${props => props.theme.borderRadius.md};
 	overflow: hidden;
+
+	@media (max-width: ${props => props.theme.breakpoints.tablet}) {
+		margin: 0 ${props => props.theme.spacing.lg};
+	}
 `;
 
 export const Cell = styled.div<{ colored: boolean }>`

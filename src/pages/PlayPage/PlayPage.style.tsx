@@ -84,11 +84,27 @@ export const JoinWaitingRoomButton = styled(Button)`
 export const Countdown = styled.div`
 	font-size: 2.4rem;
 	font-weight: 600;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: ${props => props.theme.spacing.lg};
+	border-radius: ${props => props.theme.borderRadius.lg};
+	text-align: center;
+
+	@media (max-width: ${props => props.theme.breakpoints.mobile}) {
+		font-size: 1.8rem;
+	}
 `;
 
 export const GameCanceledText = styled.div`
 	font-size: 2.4rem;
 	font-weight: 600;
+	background-color: rgba(255, 71, 126, 0.9);
+	padding: ${props => props.theme.spacing.lg};
+	border-radius: ${props => props.theme.borderRadius.lg};
+	text-align: center;
+
+	@media (max-width: ${props => props.theme.breakpoints.mobile}) {
+		font-size: 1.8rem;
+	}
 `;
 
 export const GameInfo = styled.div`
@@ -101,7 +117,17 @@ export const GameInfo = styled.div`
 export const GameInfoText = styled.div`
 	font-size: 2.4rem;
 	font-weight: 600;
-	color: ${({ theme }) => theme.text};
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	padding: ${props => props.theme.spacing.md} ${props => props.theme.spacing.lg};
+	border-radius: ${props => props.theme.borderRadius.md};
+	text-align: center;
+	box-shadow: ${props => props.theme.shadows.sm};
+
+	@media (max-width: ${props => props.theme.breakpoints.mobile}) {
+		font-size: 1.8rem;
+		padding: ${props => props.theme.spacing.sm} ${props => props.theme.spacing.md};
+	}
 `;
 
 export const WrapperPlayersInGame = styled.div`

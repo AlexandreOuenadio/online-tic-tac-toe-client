@@ -11,6 +11,53 @@ const PlayPage = () => {
 	const { user } = useUserProfile();
 	const countRef = useRef<HTMLSpanElement>(null);
 	const { socket, chat, game } = useSocket();
+	const previousTurnRef = useRef<string | null>(null);
+
+	useEffect(() => {
+		if (
+			game.all.turnInfo === game.player.symbol &&
+			previousTurnRef.current !== game.all.turnInfo &&
+			game.player.symbol &&
+			!game.all.winner &&
+			!game.all.isDraw
+		) {
+			const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+			const oscillator = audioContext.createOscillator();
+			const gainNode = audioContext.createGain();
+
+			oscillator.connect(gainNode);
+			gainNode.connect(audioContext.destination);
+
+			oscillator.frequency.value = 800;
+			oscillator.type = 'sine';
+
+			gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+			gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+			oscillator.start(audioContext.currentTime);
+			oscillator.stop(audioContext.currentTime + 0.3);
+		}
+		previousTurnRef.current = game.all.turnInfo;
+	}, [game.all.turnInfo, game.player.symbol, game.all.winner, game.all.isDraw]);
+
+	// Function to play a beep sound with a specific frequency
+	const playBeep = (frequency: number, duration: number = 0.15) => {
+		const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+		const oscillator = audioContext.createOscillator();
+		const gainNode = audioContext.createGain();
+
+		oscillator.connect(gainNode);
+		gainNode.connect(audioContext.destination);
+
+		oscillator.frequency.value = frequency;
+		oscillator.type = 'sine';
+
+		gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+		gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+
+		oscillator.start(audioContext.currentTime);
+		oscillator.stop(audioContext.currentTime + duration);
+	};
 
 	useEffect(() => {
 		if (game.all.isGameStarting) {
@@ -22,6 +69,10 @@ const PlayPage = () => {
 						setOverlayHidden(true);
 						return;
 					}
+
+					// Play beep with increasing frequency (600Hz, 700Hz, 800Hz)
+					const frequency = 600 + (3 - i) * 100;
+					playBeep(frequency);
 
 					i--;
 
@@ -55,6 +106,28 @@ const PlayPage = () => {
 			game.setters.setGameStarting(false);
 		}
 	}, [game.all.isGameCanceled, game.setters, game.all.isGameRestarting]);
+
+	// Play sound when game ends
+	useEffect(() => {
+		if (game.all.winner || game.all.isDraw) {
+			let soundFile = '';
+
+			if (game.all.isDraw) {
+				soundFile = '/sounds/lose.mp3';
+			} else if (game.all.winner?.username === user?.username) {
+				soundFile = '/sounds/win.mp3';
+			} else {
+				soundFile = '/sounds/lose.mp3';
+			}
+
+			// Play the sound
+			const audio = new Audio(soundFile);
+			audio.volume = 0.5; // 50% volume
+			audio.play().catch(err => {
+				console.log('Could not play sound:', err);
+			});
+		}
+	}, [game.all.winner, game.all.isDraw, user?.username]);
 
 	useEffect(() => {
 		if (game.all.winner || game.all.isDraw) {
