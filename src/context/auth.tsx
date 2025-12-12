@@ -11,8 +11,8 @@ export interface AuthContext {
 }
 
 export const AuthContext = React.createContext<AuthContext>({
-	auth: { token: null, isLogout: false },
-	setAuth: () => {},
+	auth: { token: null, isLogout: true },
+	setAuth: () => { },
 });
 
 export const AuthProvider = ({ children }) => {

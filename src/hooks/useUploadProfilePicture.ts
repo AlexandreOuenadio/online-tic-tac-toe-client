@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { axiosAPI } from "../client/axios";
+import { useAxiosAPI } from "./useAxiosAPI";
 
 export const useUploadProfilePicture = () => {
 	const queryClient = useQueryClient();
+	const { axiosAPI } = useAxiosAPI();
 	const { mutate: upload } = useMutation({
 		mutationFn: (formData: FormData) =>
 			axiosAPI.post<{ username: string; profilePictureURL: string }>(

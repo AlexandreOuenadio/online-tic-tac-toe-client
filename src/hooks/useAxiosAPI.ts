@@ -18,14 +18,24 @@ export const useAxiosAPI = () => {
 			async error => {
 				const prevRequest = error?.config;
 				const status = error?.response?.status;
-				if (status === 403) {
+				const errorType = error?.response?.data?.error?.type;
+				if (status === 401) {
 					try {
-						const { token } = await refreshToken();
-						prevRequest.headers.Authorization = `Bearer ${token}`;
-						return axiosAPI(prevRequest);
-					} catch (e) {
-						setAuth({ token: null, isLogout: true });
-						console.log(e);
+						if (errorType === "NO_REFRESH_TOKEN") {
+							setAuth(prev => ({ ...prev, token: null, isLogout: true }));
+							return Promise.reject(error);
+						}
+						else if (errorType === "TOKEN_EXPIRED") {
+
+							const { token } = await refreshToken();
+							setAuth(prev => ({ ...prev, token, isLogout: false }));
+							prevRequest.headers.Authorization = `Bearer ${token}`;
+							return axiosAPI(prevRequest);
+						}
+					}
+					catch (e) {
+						setAuth(prev => ({ ...prev, token: null, isLogout: true }));
+						return Promise.reject(error);
 					}
 				}
 				return Promise.reject(error);

@@ -48,7 +48,7 @@ const FormLogin = () => {
 			},
 			{
 				onSuccess({ data }) {
-					setAuth({ token: data?.token, isLogout: false });
+					setAuth(prev => ({ ...prev, token: data?.token, isLogout: false }));
 					navigate("/", { replace: true });
 				},
 			}

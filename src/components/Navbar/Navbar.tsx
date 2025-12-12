@@ -97,7 +97,7 @@ const Navbar = () => {
 						<NavItem onClick={() => {
 							setMobileMenuOpen(false);
 							logout();
-							setAuth({ token: null, isLogout: true });
+							setAuth(prev => ({ ...prev, token: null, isLogout: true }));
 							navigate("/login", { replace: true });
 						}}>
 							<span style={{ color: '#ff477e' }}>Se déconnecter</span>
@@ -124,7 +124,7 @@ const Navbar = () => {
 								<LogoutButton
 									onClick={() => {
 										logout();
-										setAuth({ token: null, isLogout: true });
+										setAuth(prev => ({ ...prev, token: null, isLogout: true }));
 										navigate("/login", { replace: true });
 									}}
 								>
